@@ -16,15 +16,9 @@ def get_most_frequent(lst):
 
     for item in lst:
         dict[item] = dict.get(item, 0) + 1
-    if dict['1'] > dict['0']:
-        return '1'
-    elif dict['1'] < dict['0']:
-        return '0'
-    else:
-        return None
-    #     if dict[item] > most_common_count:
-    #         most_common_count, most_common = dict[item], item
-    # return most_common
+        if dict[item] > most_common_count:
+            most_common_count, most_common = dict[item], item
+    return most_common
 
 
 def get_opposite_bit(bit):
@@ -60,12 +54,7 @@ def get_rates(binary_list, rate):
         nth_bit_list = map(lambda x: x[i], lst)
         most_common_bit = get_most_frequent(list(nth_bit_list))
 
-        if most_common_bit is None:
-            if rate == Rating.CO2_SCRUB:
-                bit_of_interest = '0'
-            elif rate == Rating.OXYGEN_GENERATOR:
-                bit_of_interest = '1'
-        elif rate == Rating.CO2_SCRUB:
+        if rate == Rating.CO2_SCRUB:
             least_common_bit = get_opposite_bit(most_common_bit)
             bit_of_interest = least_common_bit
             bit_to_keep = '0'
