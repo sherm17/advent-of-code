@@ -11,7 +11,6 @@ class BingoBoard:
         self._bingo_row_tracker = {}
         self._bingo_column_tracker = {}
 
-        self._marked_numbers = []
         self._unmarked_sum = None
 
         for i in range(rows):
@@ -19,6 +18,7 @@ class BingoBoard:
             self._bingo_column_tracker[i] = []
         pass
     
+
     def check_for_number(self, num):
         if num in self._board_data:
             self._last_num_cheked = num
@@ -30,14 +30,17 @@ class BingoBoard:
 
             self._board_data[num]['marked'] = True
         
-    def won_game(self):
-        for key, val in self._bingo_row_tracker.items():
-            if len(val) == self._rows:
-                return True
-        for key,val in self._bingo_column_tracker.items():
-            if len(val) == self._columns:
-                return True
+        
+     def won_game(self):
+        found_winning_row = any(len(val) == self._rows for key, val in self._bingo_row_tracker.items())
+        
+        found_winning_col= any(len(val) == self._columns for key, val in self._bingo_column_tracker.items())
+
+        if found_winning_col or found_winning_row:
+            self._already_won = True
+            return True
         return False
+
 
     def calculate_score(self):
         self._unmarked_sum = [key if val['marked'] == False else 0 for key, val in self._board_data.items()]
